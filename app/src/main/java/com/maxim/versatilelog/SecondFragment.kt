@@ -23,12 +23,9 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        VLog.d()
-        VLog.e("error")
-        VLog.w("warning")
-        VLog.i("info")
-        VLog.v()
+        VLog.d("start")
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        VLog.d("start")
         return binding.root
 
     }
@@ -37,11 +34,7 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonSecond.setOnClickListener {
-            VLog.d()
-            VLog.e("error")
-            VLog.w("warning")
-            VLog.i("info")
-            VLog.v()
+            onClick("kitty", 12)
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
     }
@@ -49,5 +42,9 @@ class SecondFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun onClick(name: String, age: Int) {
+        VLog.d(arrayOf("name", "age"), arrayOf(name, age))
     }
 }

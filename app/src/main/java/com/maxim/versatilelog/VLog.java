@@ -59,7 +59,7 @@ public class VLog {
 
     /**
      * Application can update the value to be true during runtime, then all log will output regardless
-     * the log levels, which is very convenient to watch the log information in release version.
+     * of the log levels, which is very convenient to watch the log information in release version.
      */
     public static void enableAllLog() {
         ENABLE_ALL_LOG = true;
