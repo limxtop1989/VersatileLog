@@ -1,6 +1,21 @@
-# VersatileLog Overview
-A log library which is time-saving but provides more powerful functions for log. The saved time will be significient when abundant logs needed.
+# VersatileLog
+A log library which is time-saving but provides more powerful functions for log, which output the package name, class name and method name where the log statement is invoked automatically. The saved time will be significient when abundant logs needed.
 
+# Download
+Gradle:
+```
+implementation 'io.github.limxtop1989:versatile-log:1.0.0'
+```
+
+or Maven:
+```
+<dependency>
+  <groupId>io.github.limxtop1989</groupId>
+  <artifactId>versatile-log</artifactId>
+  <version>1.0.0</version>
+  <type>aar</type>
+</dependency>
+```
 # Example
 1. Developers invoke the API as this below, without providing TAG and message parameter as before.
 ```kotlin
@@ -21,7 +36,7 @@ Developer can watch the output log from terminal by running command providing th
 ```
 adb logcat -b all | egrep -in --color 'VersatileLog:'
 ```
-2. Provide a specific message if there are multiple log statement in the same method.
+2. Provide a specific message if there are multiple log statements in the same method.
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +58,8 @@ adb logcat -b all | egrep -in --color 'VersatileLog:'
 31335:08-13 11:18:50.280  3112  3112 D VersatileLog: SecondFragment_onAdd { name=kitty, age=12 }
 ```
 # Feature
-1. Contains project, class and method name automatically for developer in log output.
+1. Contains package, class and method name automatically for developer in log output.
 2. The log function is enable by default in debug version regardless of the log levels.
 3. The log function is enable above `INFO` level including in release version, however, programer can enable debug log at runtime without modifing the codes. 
+
 
