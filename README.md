@@ -60,6 +60,6 @@ adb logcat -b all | egrep -in --color 'VersatileLog:'
 # Feature
 1. Contains package, class and method name automatically for developer in log output.
 2. The log function is enable by default in debug version regardless of the log levels.
-3. The log function is enable above `INFO` level including in release version, however, programer can enable debug log at runtime without modifing the codes. 
+3. The log function is enable above `INFO` level including in release version, however, developers can enable debug log at runtime without modifing the codes. 
 
 
