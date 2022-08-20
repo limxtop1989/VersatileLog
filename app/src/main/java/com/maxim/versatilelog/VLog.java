@@ -1,7 +1,11 @@
 package com.maxim.versatilelog;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
+import java.lang.reflect.Field;
 import java.security.InvalidParameterException;
 
 /**
@@ -16,7 +20,7 @@ import java.security.InvalidParameterException;
  * @author miaoxin.li
  */
 public class VLog {
-    private static final String LOG_TAG = "VersatileLog";
+    private static String LOG_TAG = "VersatileLog";
 
     private static final String CALLEE_NAME = VLog.class.getCanonicalName();
     private static final int CALLEE_INIT     = 1;
@@ -29,16 +33,39 @@ public class VLog {
     /**
      * Always true no matter it is debug or release version.
      */
-    private static boolean ERROR = isLoggable(Log.ERROR);
-    private static boolean WARN = isLoggable(Log.WARN);
-    private static boolean INFO = isLoggable(Log.INFO);
+    private static boolean ERROR;
+    private static boolean WARN;
+    private static boolean INFO;
 
     // True when debug and false when release, in the meanwhile, the value can change to be true in
     // running time by execute command: setprop log.tag.<YOUR_LOG_TAG> <LEVEL>
-    private static boolean DEBUG = isLoggable(Log.DEBUG);
-    private static boolean VERBOSE = isLoggable(Log.VERBOSE);
+    private static boolean DEBUG;
+    private static boolean VERBOSE ;
 
-    private static boolean ENABLE_ALL_LOG = false;
+    private static boolean ENABLE_ALL_LOG;
+
+    public static void init(Context context) {
+        LOG_TAG = context.getPackageName();
+        _init(context);
+    }
+
+    /**
+     * Application can update the value to be true during runtime, then all log will output regardless
+     * of the log levels, which is very convenient to watch the log information in release version.
+     */
+    public static void enableAllLevel(Context context) {
+        ENABLE_ALL_LOG = true;
+        _init(context);
+    }
+
+    private static void _init(Context context) {
+        ERROR = isLoggable(context, Log.ERROR);
+        WARN = isLoggable(context, Log.WARN);
+        INFO = isLoggable(context, Log.INFO);
+
+        DEBUG = isLoggable(context, Log.DEBUG);
+        VERBOSE = isLoggable(context, Log.VERBOSE);
+    }
 
     /**
      * Checks to see whether or not a log for the specified tag is loggable at the specified level.
@@ -53,26 +80,13 @@ public class VLog {
      * @param level
      * @return
      */
-    private static boolean isLoggable(int level) {
-        return BuildConfig.DEBUG || Log.isLoggable(LOG_TAG, level) || ENABLE_ALL_LOG;
+    private static boolean isLoggable(Context context, int level) {
+        return isDebuggable(context) || Log.isLoggable(LOG_TAG, level) || ENABLE_ALL_LOG;
     }
 
-    /**
-     * Application can update the value to be true during runtime, then all log will output regardless
-     * of the log levels, which is very convenient to watch the log information in release version.
-     */
-    public static void enableAllLog() {
-        ENABLE_ALL_LOG = true;
-        init();
-    }
-
-    private static void init() {
-        ERROR = isLoggable(Log.ERROR);
-        WARN = isLoggable(Log.WARN);
-        INFO = isLoggable(Log.INFO);
-
-        DEBUG = isLoggable(Log.DEBUG);
-        VERBOSE = isLoggable(Log.VERBOSE);
+    private static boolean isDebuggable(Context context) {
+        return ((context.getApplicationInfo().flags
+                & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
     public static void e(String msg) {
