@@ -4,7 +4,7 @@ A log library which is time-saving but provides more powerful functions for log,
 # Download
 Gradle:
 ```
-implementation 'io.github.limxtop1989:versatile-log:1.0.0'
+implementation 'io.github.limxtop1989:versatile-log:1.0.1'
 ```
 
 or Maven:
@@ -12,12 +12,19 @@ or Maven:
 <dependency>
   <groupId>io.github.limxtop1989</groupId>
   <artifactId>versatile-log</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>aar</type>
 </dependency>
 ```
-# Example
-1. Developers invoke the API as this below, without providing TAG and message parameter as before.
+# Usage
+1. Initialize versatile log library first in your `Application`.
+```
+    override fun onCreate() {
+        super.onCreate()
+        VLog.init(this)
+    }
+```
+2. Developers invoke the API as this below, without providing TAG and message parameter as before.
 ```kotlin
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +43,7 @@ Developer can watch the output log from terminal by running command providing th
 ```
 adb logcat -b all | egrep -in --color 'VersatileLog:'
 ```
-2. Provide a specific message if there are multiple log statements in the same method.
+3. Provide a specific message if there are multiple log statements in the same method.
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +55,7 @@ adb logcat -b all | egrep -in --color 'VersatileLog:'
         }
     }
 ```
-3. To watch the value of variable, provide the variable names and values.
+4. To watch the value of variable, provide the variable names and values.
 ```
     fun onAdd(name: String, age: Int) {
         VLog.d(arrayOf("name", "age"), arrayOf(name, age))
